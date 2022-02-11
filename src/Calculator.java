@@ -1,28 +1,24 @@
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Calculator {
 
     public static void main(String[] args){
         Calculator calculator = new Calculator();
-        double x = calculator.getInput();
-        double y = calculator.getInput();
-        double z = calculator.getInput();
-        System.out.println("Results: ");
-        System.out.println("    -Addition: " + calculator.sum(x, y));
-        System.out.println("    -Subtraction: " + calculator.sub(x, y));
-        System.out.println("    -Multiplication: " + calculator.multiply(x, y));
-        System.out.println("    -Division: " + calculator.divide(x, y));
+        calculator.getCalculation();
     }
+
+    String[] operators = {"+", "-", "*", "/"};
 
     public Calculator(){
 
     }
 
-    public double sum(double x, double y){
+    public double addition(double x, double y){
         return x + y;
     }
 
-    public double sub(double x, double y){
+    public double subtraction(double x, double y){
         return x - y;
     }
 
@@ -49,4 +45,21 @@ public class Calculator {
         result = scanner.nextDouble();
         return result;
     }
+
+    public String getStringInout(){
+        String input;
+        System.out.println("Input Calculation");
+        Scanner scanner = new Scanner(System.in);
+        input = scanner.nextLine();
+        input = input.replaceAll("\\s+", "");
+
+        return input;
+    }
+
+    public void getCalculation(){
+        String calc = getStringInout();
+        char[] charCalc = calc.toCharArray();
+
+    }
+
 }
