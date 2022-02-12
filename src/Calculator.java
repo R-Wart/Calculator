@@ -1,5 +1,4 @@
-import java.util.ArrayList;
-import java.util.Scanner;
+import java.util.*;
 
 public class Calculator {
 
@@ -8,7 +7,7 @@ public class Calculator {
         calculator.getCalculation();
     }
 
-    String[] operators = {"+", "-", "*", "/"};
+    char[] operators = {'+', '-', '*', '/'};
 
     public Calculator(){
 
@@ -59,7 +58,25 @@ public class Calculator {
     public void getCalculation(){
         String calc = getStringInout();
         char[] charCalc = calc.toCharArray();
+        List<Double> numbers = new ArrayList<Double>();
+        String value = "";
+        for(int i = 0; i < charCalc.length; i++){
+            for(int j =0; j < operators.length; j++){
+                if(operators[j] != charCalc[i]){
+                    value += charCalc[i];
+                    //System.out.println(value);
+                    break;
+                } else{
+                    //System.out.println(value);
+                    numbers.add(Double.parseDouble(value));
+                    value = "";
+                }
+            }
+        }
 
+        for(double n: numbers){
+            System.out.println(n);
+        }
     }
 
 }
