@@ -7,41 +7,42 @@ public class Calculator {
         calculator.getCalculation();
     }
 
-    char[] operators = {'+', '-', '*', '/'};
+    char[] operations = {'+', '-', '*', '/'};
+    char[] numerals = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
     public Calculator(){
 
     }
 
-    public double addition(double x, double y){
+    public int addition(int x, int y){
         return x + y;
     }
 
-    public double subtraction(double x, double y){
+    public int subtraction(int x, int y){
         return x - y;
     }
 
-    public double multiply(double x, double y){
+    public int multiply(int x, int y){
         return x * y;
     }
 
-    public double divide(double x, double y){
+    public int divide(int x, int y){
         return x / y;
     }
 
-    public double getInput(){
-        double result;
+    public int getInput(){
+        int result;
         Scanner scanner;
 
         do{
             System.out.println("Number: ");
             scanner = new Scanner(System.in);
-            if(!scanner.hasNextDouble()){
+            if(!scanner.hasNextInt()){
                 System.out.println("Input is not a number");
             }
-        }while(!scanner.hasNextDouble());
+        }while(!scanner.hasNextInt());
 
-        result = scanner.nextDouble();
+        result = scanner.nextInt();
         return result;
     }
 
@@ -58,25 +59,74 @@ public class Calculator {
     public void getCalculation(){
         String calc = getStringInout();
         char[] charCalc = calc.toCharArray();
-        List<Double> numbers = new ArrayList<Double>();
+        List<Integer> numbers = new ArrayList<Integer>();
+        List<Character> operators= new ArrayList<Character>();
         String value = "";
+
         for(int i = 0; i < charCalc.length; i++){
-            for(int j =0; j < operators.length; j++){
-                if(operators[j] != charCalc[i]){
-                    value += charCalc[i];
-                    //System.out.println(value);
-                    break;
-                } else{
-                    //System.out.println(value);
-                    numbers.add(Double.parseDouble(value));
+            if(checkNumerals(charCalc[i])){
+                value += charCalc[i];
+                if(i == (charCalc.length - 1)){
+                    numbers.add(Integer.parseInt(value));
                     value = "";
                 }
+            }else if(checkOperators(charCalc[i])){
+                operators.add(charCalc[i]);
+                numbers.add(Integer.parseInt(value));
+                value = "";
             }
         }
 
-        for(double n: numbers){
-            System.out.println(n);
+        runCalculation(numbers, operators);
+    }
+
+    public void runCalculation(List<Integer> nums, List<Character> operators){
+        int sum = 0;
+        int operatorIndex = 0;
+        int x = nums.get(0);
+        int y;
+
+        for(int i = 1; i < nums.size(); i++){
+            y = nums.get(i);
+            switch(operators.get(operatorIndex)){
+                case '+':
+                    x = addition(x, y);
+                    break;
+                case '-':
+                    x = subtraction(x,y);
+                    break;
+            }
+
+            if(i == (nums.size() - 1)){
+                sum = x;
+            }
+
+            operatorIndex++;
         }
+
+        System.out.println("Result: " + sum);
+    }
+
+    public boolean checkOperators(char compChar){
+        boolean value = false;
+        for(int i = 0; i < operations.length; i++) {
+            if(compChar == operations[i]){
+                value = true;
+                break;
+            }
+        }
+        return value;
+    }
+
+    public boolean checkNumerals(char compChar){
+        boolean value = false;
+        for(int i = 0; i < numerals.length; i++) {
+            if(compChar == numerals[i]){
+                value = true;
+                break;
+            }
+        }
+        return value;
     }
 
 }
