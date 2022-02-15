@@ -7,7 +7,7 @@ public class Calculator {
         calculator.getCalculation();
     }
 
-    char[] operations = {'+', '-', '*', '/'};
+    char[] operations = {'*', '/', '+', '-'};
     char[] numerals = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
     public Calculator(){
@@ -46,7 +46,7 @@ public class Calculator {
         return result;
     }
 
-    public String getStringInout(){
+    public String getStringInput(){
         String input;
         System.out.println("Input Calculation");
         Scanner scanner = new Scanner(System.in);
@@ -57,23 +57,23 @@ public class Calculator {
     }
 
     public void getCalculation(){
-        String calc = getStringInout();
+        String calc = getStringInput();
         char[] charCalc = calc.toCharArray();
         List<Integer> numbers = new ArrayList<Integer>();
         List<Character> operators= new ArrayList<Character>();
-        String value = "";
+        StringBuilder value = new StringBuilder();
 
         for(int i = 0; i < charCalc.length; i++){
             if(checkNumerals(charCalc[i])){
-                value += charCalc[i];
+                value.append(charCalc[i]);
                 if(i == (charCalc.length - 1)){
-                    numbers.add(Integer.parseInt(value));
-                    value = "";
+                    numbers.add(Integer.parseInt(value.toString()));
+                    value = new StringBuilder();
                 }
             }else if(checkOperators(charCalc[i])){
                 operators.add(charCalc[i]);
-                numbers.add(Integer.parseInt(value));
-                value = "";
+                numbers.add(Integer.parseInt(value.toString()));
+                value = new StringBuilder();
             }
         }
 
@@ -129,4 +129,24 @@ public class Calculator {
         return value;
     }
 
+}
+
+class SortByOperator implements Comparator<Character>{
+
+    ArrayList<Character> operatorOrder = new ArrayList<Character>();
+
+    public SortByOperator(){
+        operatorOrder.add(0,'/');
+        operatorOrder.add(1, '*');
+        operatorOrder.add(2, '+');
+        operatorOrder.add(3, '-');
+    }
+
+    @Override
+    public int compare(Character o1, Character o2) {
+        int x = operatorOrder.indexOf(o1);
+        int y = operatorOrder.indexOf(o2);
+
+        return x - y;
+    }
 }
