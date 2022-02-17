@@ -2,51 +2,116 @@ import java.util.*;
 
 public class Calculator {
 
-    public static void main(String[] args){
+    public static void main(String[] args) {
         Calculator calculator = new Calculator();
-        calculator.getCalculation();
+        calculator.runCalc();
     }
 
-    char[] operations = {'*', '/', '+', '-'};
-    char[] numerals = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
-
-    public Calculator(){
+    public Calculator() {
 
     }
 
-    public int addition(int x, int y){
+    public void runCalc() {
+        System.out.println("Welcome!");
+
+        boolean end = false;
+        double temp = numInput();
+        double sum = 0;
+
+        do {
+            char operator = operatorInput();
+
+            if(operator == '='){
+                sum = temp;
+                end = true;
+            }
+
+            if(!end) {
+                double number = numInput();
+                switch (operator) {
+                    case '+' -> temp = addition(temp, number);
+                    case '-' -> temp = subtraction(temp, number);
+                    case '*' -> temp = multiply(temp, number);
+                    case '/' -> temp = divide(temp, number);
+                }
+            }
+        } while (!end);
+
+        System.out.println("Result: " + sum);
+    }
+
+    public double addition(double x, double y) {
         return x + y;
     }
 
-    public int subtraction(int x, int y){
+    public double subtraction(double x, double y) {
         return x - y;
     }
 
-    public int multiply(int x, int y){
+    public double multiply(double x, double y) {
         return x * y;
     }
 
-    public int divide(int x, int y){
+    public double divide(double x, double y) {
         return x / y;
     }
 
-    public int getInput(){
+    public double numInput() {
+        double input;
+        Scanner scanner;
+
+        do {
+            System.out.println("Enter Number: ");
+            scanner = new Scanner(System.in);
+            if (!scanner.hasNextDouble()) {
+                System.out.println("Input is not a valid number!");
+            }
+        } while (!scanner.hasNextDouble());
+
+        input = scanner.nextDouble();
+        return input;
+    }
+
+    public char operatorInput() {
+        char input;
+        String in;
+        Scanner scanner;
+
+        boolean exit = false;
+
+        do {
+            System.out.println("Enter Operator: ");
+            scanner = new Scanner(System.in);
+            in = scanner.nextLine();
+
+            switch (in.charAt(0)) {
+                case '+', '-', '*', '/', '=' -> exit = true;
+                default -> System.out.println("Input is not a valid operator!");
+            }
+
+        } while (!exit);
+
+        input = in.charAt(0);
+        return input;
+    }
+
+    public int getInput() {
         int result;
         Scanner scanner;
 
-        do{
+        do {
             System.out.println("Number: ");
             scanner = new Scanner(System.in);
-            if(!scanner.hasNextInt()){
+            if (!scanner.hasNextInt()) {
                 System.out.println("Input is not a number");
             }
-        }while(!scanner.hasNextInt());
+        } while (!scanner.hasNextInt());
 
         result = scanner.nextInt();
         return result;
     }
 
-    public String getStringInput(){
+    public String getStringInput() {
         String input;
         System.out.println("Input Calculation");
         Scanner scanner = new Scanner(System.in);
@@ -55,8 +120,12 @@ public class Calculator {
 
         return input;
     }
+}
+    /*
+        char[] operations = {'/', '*', '+', '-'};
+        char[] numerals = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-    public void getCalculation(){
+        public void getCalculation(){
         String calc = getStringInput();
         char[] charCalc = calc.toCharArray();
         List<Integer> numbers = new ArrayList<Integer>();
@@ -75,6 +144,12 @@ public class Calculator {
                 numbers.add(Integer.parseInt(value.toString()));
                 value = new StringBuilder();
             }
+        }
+
+        operators.sort(new SortByOperator(operations));
+        System.out.println("Sorted List: ");
+        for(char c: operators){
+            System.out.println(c);
         }
 
         runCalculation(numbers, operators);
@@ -109,8 +184,8 @@ public class Calculator {
 
     public boolean checkOperators(char compChar){
         boolean value = false;
-        for(int i = 0; i < operations.length; i++) {
-            if(compChar == operations[i]){
+        for (char operation : operations) {
+            if (compChar == operation) {
                 value = true;
                 break;
             }
@@ -120,8 +195,8 @@ public class Calculator {
 
     public boolean checkNumerals(char compChar){
         boolean value = false;
-        for(int i = 0; i < numerals.length; i++) {
-            if(compChar == numerals[i]){
+        for (char numeral : numerals) {
+            if (compChar == numeral) {
                 value = true;
                 break;
             }
@@ -133,13 +208,12 @@ public class Calculator {
 
 class SortByOperator implements Comparator<Character>{
 
-    ArrayList<Character> operatorOrder = new ArrayList<Character>();
+    ArrayList<Character> operatorOrder = new ArrayList<>();
 
-    public SortByOperator(){
-        operatorOrder.add(0,'/');
-        operatorOrder.add(1, '*');
-        operatorOrder.add(2, '+');
-        operatorOrder.add(3, '-');
+    public SortByOperator(char[] operator){
+        for(char c: operator){
+            operatorOrder.add(c);
+        }
     }
 
     @Override
@@ -149,4 +223,4 @@ class SortByOperator implements Comparator<Character>{
 
         return x - y;
     }
-}
+}*/
